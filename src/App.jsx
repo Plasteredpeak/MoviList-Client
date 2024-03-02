@@ -1,9 +1,13 @@
 import React from "react";
 
+import { BrowserRouter } from "react-router-dom";
+
+import Router from "./components/Router";
+
 export default function App() {
   return (
-    <h1 className=" p-4 text-center text-3xl font-bold text-teal-600 ">
-      Hello React + Vite + TailwindCSS
-    </h1>
+    <BrowserRouter>
+      <Router />
+    </BrowserRouter>
   );
 }
