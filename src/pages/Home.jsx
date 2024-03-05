@@ -1,25 +1,48 @@
 import React, { useEffect, useState } from "react";
 
-import { getMovies } from "../services/movies.services";
+import {
+  getMovies,
+  getPopularSeries,
+  getTopRatedMovies,
+  getTopRatedSeries,
+  getTrending,
+} from "../services/tmdb.services";
 import ListComponent from "../components/ListComponent";
 
 export default function Home() {
-  const [movies, setMovies] = useState([]);
+  const [popular, setPopular] = useState([]);
+  const [trending, setTrending] = useState([]);
+  const [topRated, setTopRated] = useState([]);
+  const [series, setSeries] = useState([]);
+  const [topRatedSeries, setTopRatedSeries] = useState([]);
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const data = await getMovies();
-      setMovies(data.results);
+      const popularMovies = await getMovies();
+      const trending = await getTrending();
+      const topRatedMovies = await getTopRatedMovies();
+      const popularSeries = await getPopularSeries();
+      const topRatedSeries = await getTopRatedSeries();
+
+      console.log("series", popularSeries.results[1]);
+      console.log("topRatedSeries", topRatedMovies.results[1]);
+
+      setPopular(popularMovies.results);
+      setTrending(trending.results);
+      setSeries(popularSeries.results);
+      setTopRated(topRatedMovies.results);
+      setTopRatedSeries(topRatedSeries.results);
     };
     fetchMovies();
   }, []);
 
   return (
     <div className="mx-auto mb-8">
-      <ListComponent title="Trending Now" movies={movies} />
-      <ListComponent title="Popular this Season" movies={movies} />
-      <ListComponent title="Upcoming" movies={movies} />
-      <ListComponent title="Top Rated" movies={movies} />
+      <ListComponent title="Trending" movies={trending} />
+      <ListComponent title="Popular Movies" movies={popular} />
+      <ListComponent title="Popular Series" movies={series} />
+      <ListComponent title="Top Rated Movies" movies={topRated} />
+      <ListComponent title="Top Rated Series" movies={topRatedSeries} />
     </div>
   );
 }

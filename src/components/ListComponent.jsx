@@ -13,15 +13,17 @@ export default function ListComponent({ title, movies }) {
           View All
         </a>
       </div>
-      <div className="flex justify-between overflow-x-auto">
+      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {shownMovies.map((movie) => (
           <div key={movie.id} className="mt-2 flex flex-col">
             <img
               src={`${TMDB_IMAGE_URL}${movie.poster_path}`}
               alt={movie.title}
-              className=" h-72 w-48 rounded-md"
+              className="h-full w-full rounded-md"
             />
-            <h2 className="mt-2 text-lg font-bold">{movie.title}</h2>
+            <h2 className="mt-2 text-lg font-bold">
+              {movie.title || movie.name}
+            </h2>
           </div>
         ))}
       </div>
