@@ -24,7 +24,7 @@ export const getTrending = async () => {
 };
 
 export const getPopularSeries = async () => {
-  const { data } = await axios.get(`${TMDB_BASE_URL}/tv/popular`, {
+  const { data } = await axios.get(`${TMDB_BASE_URL}/trending/tv/week`, {
     params: {
       api_key: API_KEY,
       language: "en-US",
