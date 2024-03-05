@@ -61,7 +61,8 @@ export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <header className="bg-[#1F2937]">
+    // sticky top-0 z-50 (if i ever want it to be sticky)
+    <header className=" bg-[#1F2937]">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
@@ -70,7 +71,7 @@ export default function Header() {
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
 
-            <img className="h-12 w-auto rounded-sm" src={Logo} alt="" />
+            <img className="h-10 w-auto rounded-sm" src={Logo} alt="" />
           </a>
         </div>
         <div className="flex lg:hidden">
