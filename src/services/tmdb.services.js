@@ -65,3 +65,13 @@ export const getMovie = async (id) => {
   });
   return data;
 };
+
+export const getSeries = async (id) => {
+  const { data } = await axios.get(`${TMDB_BASE_URL}/tv/${id}`, {
+    params: {
+      api_key: API_KEY,
+      language: "en-US",
+    },
+  });
+  return data;
+};

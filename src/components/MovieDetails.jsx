@@ -1,20 +1,63 @@
-// {
-//     "adult": false,
-//     "backdrop_path": "/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg",
-//     "genre_ids": [
-//         28,
-//         12,
-//         878
-//     ],
-//     "id": 693134,
-//     "original_language": "en",
-//     "original_title": "Dune: Part Two",
-//     "overview": "Follow the mythic journey of Paul Atreides as he unites with Chani and the Fremen while on a path of revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the known universe, Paul endeavors to prevent a terrible future only he can foresee.",
-//     "popularity": 1702.039,
-//     "poster_path": "/8b8R8l88Qje9dn9OE8PY05Nxl1X.jpg",
-//     "release_date": "2024-02-27",
-//     "title": "Dune: Part Two",
-//     "video": false,
-//     "vote_average": 8.461,
-//     "vote_count": 804
-// }
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+
+import { getMovie, getSeries } from "../services/tmdb.services";
+
+export default function MovieDetails({ isMovie }) {
+  const { id } = useParams();
+  const [movie, setMovie] = useState(null);
+
+  useEffect(() => {
+    const fetchMovie = async () => {
+      const data = isMovie ? await getMovie(id) : await getSeries(id);
+      console.log("movie", data);
+      setMovie(data);
+    };
+
+    fetchMovie();
+  }, [id]);
+
+  if (!movie) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="container mx-auto px-20">
+      <div className="mt-8 flex">
+        <img
+          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+          alt={movie.title}
+          className="h-96 w-64 rounded-md"
+        />
+        <div className="ml-8">
+          <h1 className="text-4xl font-bold">{movie.title || movie.name}</h1>
+          <div className="mt-4">
+            {movie.genres.map((genre) => (
+              <span
+                key={genre.id}
+                className="mr-2 rounded-md bg-gray-200 px-2 py-1"
+              >
+                {genre.name}
+              </span>
+            ))}
+          </div>
+          <p className="mt-4 text-lg">{movie.overview}</p>
+          <div className="mt-4">
+            <span className="font-bold">Release Date:</span>{" "}
+            {movie.release_date || movie.first_air_date}
+          </div>
+          {isMovie && (
+            <div className="mt-4">
+              <span className="font-bold">Duration:</span>{" "}
+              {(movie.runtime / 60).toFixed(1)} hours
+            </div>
+          )}
+          <div className="mt-4">
+            <span className="font-bold">Rating:</span>{" "}
+            {movie.vote_average.toFixed(1)}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
