@@ -75,3 +75,29 @@ export const getSeries = async (id) => {
   });
   return data;
 };
+
+export const getMovieRecommendations = async (id) => {
+  const { data } = await axios.get(
+    `${TMDB_BASE_URL}/movie/${id}/recommendations`,
+    {
+      params: {
+        api_key: API_KEY,
+        language: "en-US",
+      },
+    },
+  );
+  return data;
+};
+
+export const getSeriesRecommendations = async (id) => {
+  const { data } = await axios.get(
+    `${TMDB_BASE_URL}/tv/${id}/recommendations`,
+    {
+      params: {
+        api_key: API_KEY,
+        language: "en-US",
+      },
+    },
+  );
+  return data;
+};
