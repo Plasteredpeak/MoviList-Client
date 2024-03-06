@@ -24,9 +24,6 @@ export default function Home() {
       const popularSeries = await getPopularSeries();
       const topRatedSeries = await getTopRatedSeries();
 
-      console.log("series", popularSeries.results[1]);
-      console.log("topRatedSeries", topRatedMovies.results[1]);
-
       setPopular(popularMovies.results);
       setTrending(trending.results);
       setSeries(popularSeries.results);

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
 
 import { getMovie, getSeries } from "../services/tmdb.services";
 
-export default function MovieDetails({ isMovie }) {
-  const { id } = useParams();
+export default function MovieDetails({ isMovie, id }) {
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
     const fetchMovie = async () => {
       const data = isMovie ? await getMovie(id) : await getSeries(id);
-      console.log("movie", data);
+
       setMovie(data);
     };
 
