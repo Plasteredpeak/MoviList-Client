@@ -85,6 +85,12 @@ export default function Header() {
           </button>
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
+          <a
+            href="/home"
+            className="text-sm font-semibold leading-6 text-gray-300"
+          >
+            Home
+          </a>
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-300">
               Product
@@ -147,10 +153,6 @@ export default function Header() {
               </Popover.Panel>
             </Transition>
           </Popover>
-
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-300">
-            Features
-          </a>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-300">
             Marketplace
           </a>
@@ -202,6 +204,12 @@ export default function Header() {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
+                <a
+                  href="/home"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
+                >
+                  Home
+                </a>
                 <Disclosure as="div" className="-mx-3">
                   {({ open }) => (
                     <>
@@ -230,12 +238,7 @@ export default function Header() {
                     </>
                   )}
                 </Disclosure>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
-                >
-                  Features
-                </a>
+
                 <a
                   href="#"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
