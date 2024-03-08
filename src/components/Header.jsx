@@ -1,5 +1,6 @@
 import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
+import { useNavigate } from "react-router-dom";
 import Logo from "../assets/wLogo.png";
 import {
   ArrowPathIcon,
@@ -59,6 +60,7 @@ function classNames(...classes) {
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     // sticky top-0 z-50 (if i ever want it to be sticky)
@@ -71,7 +73,12 @@ export default function Header() {
           <a href="#" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
 
-            <img className="h-10 w-auto rounded-sm" src={Logo} alt="" />
+            <img
+              className="h-10 w-auto rounded-sm"
+              src={Logo}
+              alt=""
+              onClick={() => navigate(`/home`)}
+            />
           </a>
         </div>
         <div className="flex lg:hidden">
