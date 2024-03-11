@@ -34,7 +34,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="mx-auto mb-10">
+    <div className="mx-auto mb-5">
       <ListComponent title="Trending" movies={trending} />
       <ListComponent title="Popular Movies" movies={popular} />
       <ListComponent title="Popular Series" movies={series} />

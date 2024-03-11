@@ -3,12 +3,12 @@ import { TMDB_BASE_URL } from "../utils/constants";
 
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 
-export const getMovies = async () => {
+export const getMovies = async (page = 1) => {
   const { data } = await axios.get(`${TMDB_BASE_URL}/movie/popular`, {
     params: {
       api_key: API_KEY,
       language: "en-US",
-      page: 1,
+      page,
     },
   });
   return data;
@@ -23,34 +23,34 @@ export const getTrending = async () => {
   return data;
 };
 
-export const getPopularSeries = async () => {
+export const getPopularSeries = async (page = 1) => {
   const { data } = await axios.get(`${TMDB_BASE_URL}/trending/tv/week`, {
     params: {
       api_key: API_KEY,
       language: "en-US",
-      page: 1,
+      page,
     },
   });
   return data;
 };
 
-export const getTopRatedSeries = async () => {
+export const getTopRatedSeries = async (page = 1) => {
   const { data } = await axios.get(`${TMDB_BASE_URL}/tv/top_rated`, {
     params: {
       api_key: API_KEY,
       language: "en-US",
-      page: 1,
+      page,
     },
   });
   return data;
 };
 
-export const getTopRatedMovies = async () => {
+export const getTopRatedMovies = async (page = 1) => {
   const { data } = await axios.get(`${TMDB_BASE_URL}/movie/top_rated`, {
     params: {
       api_key: API_KEY,
       language: "en-US",
-      page: 1,
+      page,
     },
   });
   return data;
