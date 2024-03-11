@@ -4,12 +4,13 @@ import { useNavigate } from "react-router-dom";
 export default function ListComponent({ title, movies }) {
   const navigate = useNavigate();
   const shownMovies = movies.slice(0, 5);
+
   return (
     <div className="container mx-auto px-20">
       <div className="flex justify-between">
         <h1 className="mt-8 text-2xl font-bold">{title}</h1>
         <a
-          href="/"
+          href={`/all/${title.toLowerCase().split(" ").join("-")}/?page=1`}
           className="text-md mt-8 font-semibold text-gray-800 underline"
         >
           View All
