@@ -2,13 +2,48 @@ import React, { useEffect, useState } from "react";
 
 import { getMovie, getSeries } from "../services/tmdb.services";
 import { FaArrowDown, FaCalendar, FaCheck, FaPlay } from "react-icons/fa6";
+import { toast } from "react-toastify";
+import { addToUserList, getUserList } from "../services/list.services";
 
 export default function MovieDetails({ isMovie, id }) {
+  const [loading, setLoading] = useState(false);
   const [movie, setMovie] = useState(null);
+
+  const addToList = async (status) => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      toast.warn("You need to be logged in to add to your list");
+      return;
+    }
+
+    const listData = {
+      status,
+      mediaId: id.toString(),
+      type: isMovie ? "movie" : "series",
+      image: movie.poster_path,
+      title: movie.title || movie.name,
+      releaseDate: movie.release_date || movie.first_air_date,
+      rating: movie.vote_average.toFixed(1),
+    };
+
+    setLoading(true);
+
+    const { success, data } = await addToUserList(token, listData);
+    if (success) {
+      toast.success("Added to list");
+    } else {
+      toast.error(data);
+    }
+
+    setLoading(false);
+  };
 
   useEffect(() => {
     const fetchMovie = async () => {
       const data = isMovie ? await getMovie(id) : await getSeries(id);
+
+      console.log(data);
 
       setMovie(data);
     };
@@ -65,19 +100,28 @@ export default function MovieDetails({ isMovie, id }) {
 
           <div className="mt-2 flex w-full justify-center">
             <div className="tooltip tooltip-bottom" data-tip="Add to Completed">
-              <div className="text-md btn btn-circle btn-secondary btn-outline group mx-2">
+              <div
+                className="text-md btn btn-circle btn-secondary btn-outline group mx-2"
+                onClick={() => addToList("completed")}
+              >
                 <FaCheck className="text-lg group-hover:text-white" />
               </div>
             </div>
 
             <div className="tooltip tooltip-bottom" data-tip="Add to Planning">
-              <div className="text-md btn btn-circle btn-secondary btn-outline group">
+              <div
+                className="text-md btn btn-circle btn-secondary btn-outline group"
+                onClick={() => addToList("planning")}
+              >
                 <FaCalendar className="text-lg group-hover:text-white" />
               </div>
             </div>
 
             <div className="tooltip tooltip-bottom" data-tip="Add to Watching">
-              <div className="text-md btn btn-circle btn-secondary btn-outline group mx-2">
+              <div
+                className="text-md btn btn-circle btn-secondary btn-outline group mx-2"
+                onClick={() => addToList("watching")}
+              >
                 <FaPlay className="text-lg group-hover:text-white" />
               </div>
             </div>
@@ -100,12 +144,24 @@ export default function MovieDetails({ isMovie, id }) {
             <span className="font-bold">Release Date:</span>{" "}
             {movie.release_date || movie.first_air_date}
           </div>
-          {isMovie && (
+          {isMovie ? (
             <div className="mt-4">
               <span className="font-bold">Duration:</span>{" "}
               {(movie.runtime / 60).toFixed(1)} hours
             </div>
+          ) : (
+            <>
+              <div className="mt-4">
+                <span className="font-bold">Seasons:</span>{" "}
+                {movie.number_of_seasons}
+              </div>
+              <div className="mt-4">
+                <span className="font-bold">Episodes:</span>{" "}
+                {movie.number_of_episodes}
+              </div>
+            </>
           )}
+
           <div className="mt-4">
             <span className="font-bold">Rating:</span>{" "}
             {movie.vote_average.toFixed(1)}
