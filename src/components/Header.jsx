@@ -2,57 +2,41 @@ import { Fragment, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/wLogo.png";
-import {
-  ArrowPathIcon,
-  Bars3Icon,
-  ChartPieIcon,
-  CursorArrowRaysIcon,
-  FingerPrintIcon,
-  SquaresPlusIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import {
   ChevronDownIcon,
   PhoneIcon,
   PlayCircleIcon,
 } from "@heroicons/react/20/solid";
+import { MdLocalMovies, MdMovieFilter } from "react-icons/md";
+import { BiSolidCameraMovie } from "react-icons/bi";
+import { FaFire } from "react-icons/fa6";
 
 const items = [
   {
-    name: "Analytics",
-    description: "Get a better understanding of your traffic",
-    href: "#",
-    icon: ChartPieIcon,
+    name: "Trending",
+    description: "See what's trending today",
+    href: "/all/trending/?page=1",
+    icon: FaFire,
   },
   {
-    name: "Engagement",
-    description: "Speak directly to your customers",
-    href: "#",
-    icon: CursorArrowRaysIcon,
+    name: "Movies",
+    description: "See the most popular movies",
+    href: "/all/popular-movies/?page=1",
+    icon: BiSolidCameraMovie,
   },
+
   {
-    name: "Security",
-    description: "Your customers’ data will be safe and secure",
-    href: "#",
-    icon: FingerPrintIcon,
-  },
-  {
-    name: "Integrations",
-    description: "Connect with third-party tools",
-    href: "#",
-    icon: SquaresPlusIcon,
-  },
-  {
-    name: "Automations",
-    description: "Build strategic funnels that will convert",
-    href: "#",
-    icon: ArrowPathIcon,
+    name: " Series",
+    description: "See the most popular series",
+    href: "all/popular-series/?page=1",
+    icon: MdLocalMovies,
   },
 ];
-const callsToAction = [
-  { name: "Watch demo", href: "#", icon: PlayCircleIcon },
-  { name: "Contact sales", href: "#", icon: PhoneIcon },
-];
+// const callsToAction = [
+//   { name: "Watch demo", href: "#", icon: PlayCircleIcon },
+//   { name: "Contact sales", href: "#", icon: PhoneIcon },
+// ];
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -101,7 +85,7 @@ export default function Header() {
           </a>
           <Popover className="relative">
             <Popover.Button className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-300">
-              Product
+              Explore
               <ChevronDownIcon
                 className="h-5 w-5 flex-none text-gray-300"
                 aria-hidden="true"
@@ -118,7 +102,7 @@ export default function Header() {
               leaveTo="opacity-0 translate-y-1"
             >
               <Popover.Panel className="absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-gray-800 shadow-lg ring-1 ring-gray-900/5">
-                <div className="p-4">
+                <div className="max-h-80 overflow-y-auto p-4">
                   {items.map((item) => (
                     <div
                       key={item.name}
@@ -126,28 +110,32 @@ export default function Header() {
                     >
                       <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-700 group-hover:bg-gray-900">
                         <item.icon
-                          className="h-6 w-6 text-gray-300 group-hover:text-teal-400"
+                          className="group-hover:text-primary h-6 w-6 text-gray-300"
                           aria-hidden="true"
                         />
                       </div>
-                      <div className="flex-auto">
-                        <a
-                          href={item.href}
-                          className="block font-semibold text-gray-300"
-                        >
+                      <div
+                        className="flex-auto"
+                        onClick={() => {
+                          navigate(item.href);
+                        }}
+                      >
+                        <div className="block cursor-pointer font-semibold text-gray-300">
                           {item.name}
                           <span className="absolute inset-0" />
-                        </a>
+                        </div>
                         <p className="mt-1 text-gray-400">{item.description}</p>
                       </div>
                     </div>
                   ))}
                 </div>
-                <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-700">
+                {/* <div className="grid grid-cols-2 divide-x divide-gray-900/5 bg-gray-700">
                   {callsToAction.map((item) => (
                     <a
                       key={item.name}
-                      href={item.href}
+                      onClick={() => {
+                        navigate(item.href);
+                      }}
                       className="flex items-center justify-center gap-x-2.5 rounded-lg p-3 text-sm font-semibold leading-6 text-gray-300 hover:bg-gray-600"
                     >
                       <item.icon
@@ -157,15 +145,12 @@ export default function Header() {
                       {item.name}
                     </a>
                   ))}
-                </div>
+                </div> */}
               </Popover.Panel>
             </Transition>
           </Popover>
           <a href="#" className="text-sm font-semibold leading-6 text-gray-300">
-            Marketplace
-          </a>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-300">
-            Company
+            My List
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
@@ -218,7 +203,7 @@ export default function Header() {
                   {({ open }) => (
                     <>
                       <Disclosure.Button className="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700">
-                        Product
+                        Explore
                         <ChevronDownIcon
                           className={classNames(
                             open ? "rotate-180" : "",
@@ -228,7 +213,7 @@ export default function Header() {
                         />
                       </Disclosure.Button>
                       <Disclosure.Panel className="mt-2 space-y-2">
-                        {[...items, ...callsToAction].map((item) => (
+                        {items.map((item) => (
                           <Disclosure.Button
                             key={item.name}
                             as="a"

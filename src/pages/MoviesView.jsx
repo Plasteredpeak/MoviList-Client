@@ -88,7 +88,7 @@ const MoviesView = () => {
         <h1 className="mt-8 text-2xl font-bold">{title}</h1>
       </div>
       <div className="mb-4 flex justify-center">
-        <label className="input input-secondary mb-4 flex w-1/2 items-center gap-2">
+        <label className="input input-secondary my-4 flex w-1/2 items-center gap-2">
           <input
             type="text"
             className="grow"
