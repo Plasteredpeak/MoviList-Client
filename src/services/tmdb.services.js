@@ -14,10 +14,11 @@ export const getMovies = async (page = 1) => {
   return data;
 };
 
-export const getTrending = async () => {
+export const getTrending = async (page) => {
   const { data } = await axios.get(`${TMDB_BASE_URL}/trending/all/week`, {
     params: {
       api_key: API_KEY,
+      page,
     },
   });
   return data;

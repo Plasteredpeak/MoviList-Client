@@ -1,7 +1,7 @@
 import React from "react";
 import { TMDB_IMAGE_URL } from "../utils/constants";
-
-import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
+import { Pagination } from "../components/Pagination";
 
 import {
   getMovies,
@@ -13,7 +13,6 @@ import {
 
 const MoviesView = () => {
   const { type } = useParams();
-  const navigate = useNavigate();
 
   const title = type.replace(/-/g, " ").toUpperCase();
 
@@ -21,6 +20,7 @@ const MoviesView = () => {
   const page = parseInt(searchParams.get("page")) || 1;
 
   const [movies, setMovies] = React.useState([]);
+  const [totalPages, setTotalPages] = React.useState(1);
 
   React.useEffect(() => {
     const fetchData = async () => {
@@ -45,6 +45,7 @@ const MoviesView = () => {
           data = [];
       }
       setMovies(data.results);
+      setTotalPages(data.total_pages);
       setSearchParams((params) => ({
         ...params,
         page: page.toString(),
@@ -52,7 +53,14 @@ const MoviesView = () => {
     };
 
     fetchData();
-  }, [type, page, setSearchParams]);
+  }, [type, page, searchParams]);
+
+  const handlePageChange = (newPage) => {
+    setSearchParams((params) => ({
+      ...params,
+      page: newPage.toString(),
+    }));
+  };
 
   return (
     <div className="container mx-auto mb-5 px-20">
@@ -83,6 +91,11 @@ const MoviesView = () => {
           </div>
         ))}
       </div>
+      <Pagination
+        currentPage={page}
+        totalPages={totalPages}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 };
