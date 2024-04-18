@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { MdEmail } from "react-icons/md";
 import { FaKey } from "react-icons/fa";
 import Logo from "../assets/wLogo.png";
+import { login } from "../services/user.services";
+import { toast } from "react-toastify";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -19,9 +21,8 @@ const Login = () => {
     setErrors({ ...errors, [field]: "" });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
 
     // Validate email
     if (!formData.email) {
@@ -33,6 +34,14 @@ const Login = () => {
     if (!formData.password) {
       setErrors({ ...errors, password: "Password is required" });
       return;
+    }
+
+    const { success, data } = await login(formData);
+    if (success) {
+      console.log(data);
+      toast.success("Login successful");
+    } else {
+      toast.error(data);
     }
   };
 

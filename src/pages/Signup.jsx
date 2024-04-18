@@ -3,6 +3,8 @@ import { FaKey, FaUser } from "react-icons/fa6";
 import { MdEmail } from "react-icons/md";
 
 import Logo from "../assets/wLogo.png";
+import { signup } from "../services/user.services";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [formData, setFormData] = useState({
@@ -18,15 +20,16 @@ const SignUp = () => {
     confirmPassword: "",
   });
 
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e, field) => {
     setFormData({ ...formData, [field]: e.target.value });
     // Reset error message
     setErrors({ ...errors, [field]: "" });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
 
     // Validate username
     if (!formData.userName) {
@@ -37,8 +40,6 @@ const SignUp = () => {
     // Validate email
     if (!formData.email) {
       setErrors({ ...errors, email: "Email is required" });
-      console.log(errors);
-      console.log("Email is required");
       return;
     }
 
@@ -55,6 +56,14 @@ const SignUp = () => {
         confirmPassword: "Passwords do not match",
       });
       return;
+    }
+
+    const { success, data } = await signup(formData);
+
+    if (success) {
+      toast.success("Signup successful");
+    } else {
+      toast.error(data);
     }
   };
 
@@ -164,10 +173,12 @@ const SignUp = () => {
           </div>
         </label>
         <button
-          className="text-md btn btn-secondary my-5 text-[1rem]"
+          className={`text-md btn btn-secondary my-5 text-[1rem] 
+            ${loading && "disabled"}
+          `}
           type="submit"
         >
-          {/* <span class="loading loading-spinner"></span> */}
+          {loading && <span class="loading loading-spinner"></span>}
           Sign Up
         </button>
       </form>
