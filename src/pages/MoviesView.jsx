@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TMDB_IMAGE_URL } from "../utils/constants";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Pagination } from "../components/Pagination";
@@ -11,7 +11,10 @@ import {
   getTrending,
 } from "../services/tmdb.services";
 
+import { useNavigate } from "react-router-dom";
+
 const MoviesView = () => {
+  const navigate = useNavigate();
   const { type } = useParams();
 
   const title = type.replace(/-/g, " ").toUpperCase();
@@ -19,11 +22,13 @@ const MoviesView = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
 
-  const [movies, setMovies] = React.useState([]);
-  const [totalPages, setTotalPages] = React.useState(1);
+  const [movies, setMovies] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       let data;
       switch (type) {
         case "trending":
@@ -50,6 +55,7 @@ const MoviesView = () => {
         ...params,
         page: page.toString(),
       }));
+      setLoading(false);
     };
 
     fetchData();
@@ -62,8 +68,16 @@ const MoviesView = () => {
     }));
   };
 
+  if (loading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <span className="loading loading-dots loading-lg"></span>
+      </div>
+    );
+  }
+
   return (
-    <div className="container mx-auto mb-5 px-20">
+    <div className="container mx-auto mb-5 min-h-[90vh] px-20">
       <div className="flex justify-between">
         <h1 className="mt-8 text-2xl font-bold">{title}</h1>
       </div>

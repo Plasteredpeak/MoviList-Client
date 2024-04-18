@@ -16,15 +16,19 @@ export default function MovieDetails({ isMovie, id }) {
   }, [id]);
 
   if (!movie) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <span className="loading loading-dots loading-lg"></span>
+      </div>
+    );
   }
 
   return (
-    <div className="container mx-auto px-20">
+    <div className="container mx-auto min-h-[90vh] px-20">
       <div className="mt-8 flex">
         <img
-          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-          alt={movie.title}
+          src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
+          alt={movie?.title}
           className="h-96 w-64 rounded-md"
         />
         <div className="ml-8">
