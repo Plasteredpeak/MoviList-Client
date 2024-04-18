@@ -20,14 +20,14 @@ export function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={goToPreviousPage}
         disabled={currentPage === 1}
-        className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+        className="btn btn-primary"
       >
         Previous
       </button>
       <button
         onClick={goToNextPage}
         disabled={currentPage === totalPages}
-        className="rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700"
+        className="btn btn-primary"
       >
         Next
       </button>
