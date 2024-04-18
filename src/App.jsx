@@ -19,9 +19,10 @@ export default function App() {
         position="top-right"
         autoClose={2000}
         hideProgressBar={false}
-        closeOnClick
+        closeOnClick={true}
         rtl={false}
         pauseOnFocusLoss
+        pauseOnHover={false}
         draggable
         theme="light"
       />

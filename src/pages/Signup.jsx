@@ -5,8 +5,10 @@ import { MdEmail } from "react-icons/md";
 import Logo from "../assets/wLogo.png";
 import { signup } from "../services/user.services";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     userName: "",
     email: "",
@@ -62,6 +64,7 @@ const SignUp = () => {
 
     if (success) {
       toast.success("Signup successful");
+      navigate("/login");
     } else {
       toast.error(data);
     }

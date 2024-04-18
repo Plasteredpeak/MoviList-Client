@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { Dialog, Disclosure, Popover, Transition } from "@headlessui/react";
 import { useNavigate } from "react-router-dom";
 import Logo from "../assets/wLogo.png";
@@ -11,6 +11,9 @@ import {
 import { MdLocalMovies, MdMovieFilter } from "react-icons/md";
 import { BiSolidCameraMovie } from "react-icons/bi";
 import { FaFire } from "react-icons/fa6";
+import { FaUserCircle } from "react-icons/fa";
+import { CiMenuKebab } from "react-icons/ci";
+import { HiDotsVertical } from "react-icons/hi";
 
 const items = [
   {
@@ -43,8 +46,30 @@ function classNames(...classes) {
 }
 
 export default function Header() {
+  const [user, setUser] = useState(null);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    //listen for login event
+    window.addEventListener("login", () => {
+      if (localStorage.getItem("user"))
+        setUser(JSON.parse(localStorage.getItem("user")));
+    });
+    if (localStorage.getItem("user")) {
+      //check if user is already logged in
+      const user = localStorage.getItem("user");
+      if (user) {
+        setUser(JSON.parse(user));
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setUser(null);
+  };
 
   return (
     <header className="bg-secondary">
@@ -153,17 +178,44 @@ export default function Header() {
             My List
           </a>
         </Popover.Group>
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a className="btn " onClick={() => navigate(`/login`)}>
-            Log in
-          </a>
-          <a
-            className="btn btn-primary ml-4 text-black"
-            onClick={() => navigate(`/signup`)}
-          >
-            Sign up
-          </a>
-        </div>
+        {user ? (
+          <div className="hidden items-center lg:flex lg:flex-1 lg:justify-end">
+            <div
+              className="tooltip tooltip-bottom mx-2 flex items-center"
+              data-tip={user.email}
+            >
+              <FaUserCircle className="h-7 w-7 text-gray-300" />
+              <span className=" mx-2 font-medium text-gray-300">
+                {user.userName}
+              </span>
+            </div>
+            <div className="dropdown dropdown-end dropdown-hover">
+              <div tabIndex={0} className="">
+                <HiDotsVertical className="h-5 w-5 cursor-pointer text-gray-300" />
+              </div>
+              <ul
+                tabIndex={0}
+                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+              >
+                <li>
+                  <a onClick={handleLogout}>Logout</a>
+                </li>
+              </ul>
+            </div>
+          </div>
+        ) : (
+          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <a className="btn " onClick={() => navigate(`/login`)}>
+              Log in
+            </a>
+            <a
+              className="btn btn-primary ml-4 text-black"
+              onClick={() => navigate(`/signup`)}
+            >
+              Sign up
+            </a>
+          </div>
+        )}
       </nav>
       <Dialog
         as="div"
@@ -232,32 +284,48 @@ export default function Header() {
                 </Disclosure>
 
                 <a
-                  href="#"
+                  onClick={() => {
+                    navigate(`/home`);
+                    setMobileMenuOpen(false);
+                  }}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
                 >
-                  Marketplace
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
-                >
-                  Company
+                  My List
                 </a>
               </div>
-              <div className="py-6">
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
-                >
-                  Log in
-                </a>
-                <a
-                  href="#"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
-                >
-                  Sign up
-                </a>
-              </div>
+              {!user && (
+                <div className="py-6">
+                  <a
+                    onClick={() => {
+                      navigate("/login");
+                      setMobileMenuOpen(false);
+                    }}
+                    className="-mx-3 block cursor-pointer rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
+                  >
+                    Log in
+                  </a>
+                  <a
+                    onClick={() => {
+                      navigate("/signup");
+                      setMobileMenuOpen(false);
+                    }}
+                    className="-mx-3 block cursor-pointer rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
+                  >
+                    Sign up
+                  </a>
+                </div>
+              )}
+              {user && (
+                //logout
+                <div className="py-6">
+                  <a
+                    onClick={handleLogout}
+                    className="-mx-3 block cursor-pointer rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
+                  >
+                    Logout
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         </Dialog.Panel>

@@ -4,8 +4,10 @@ import { FaKey } from "react-icons/fa";
 import Logo from "../assets/wLogo.png";
 import { login } from "../services/user.services";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -38,8 +40,11 @@ const Login = () => {
 
     const { success, data } = await login(formData);
     if (success) {
-      console.log(data);
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
       toast.success("Login successful");
+      window.dispatchEvent(new Event("login"));
+      navigate("/");
     } else {
       toast.error(data);
     }
