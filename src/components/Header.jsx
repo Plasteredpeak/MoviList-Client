@@ -63,8 +63,7 @@ export default function Header() {
   const navigate = useNavigate();
 
   return (
-    // sticky top-0 z-50 (if i ever want it to be sticky)
-    <header className=" bg-[#1F2937]">
+    <header className="bg-secondary">
       <nav
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
         aria-label="Global"
@@ -93,8 +92,10 @@ export default function Header() {
         </div>
         <Popover.Group className="hidden lg:flex lg:gap-x-12">
           <a
-            href="/home"
-            className="text-sm font-semibold leading-6 text-gray-300"
+            onClick={() => {
+              navigate(`/home`);
+            }}
+            className="cursor-pointer text-sm font-semibold leading-6 text-gray-300"
           >
             Home
           </a>
@@ -168,15 +169,12 @@ export default function Header() {
           </a>
         </Popover.Group>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a
-            href="#"
-            className="rounded-md bg-gray-200 px-5 py-2 text-sm font-semibold leading-6 text-black hover:bg-gray-300 "
-          >
+          <a className="btn " onClick={() => navigate(`/login`)}>
             Log in
           </a>
           <a
-            href="#"
-            className="ml-4 rounded-md bg-[#148F77] px-5 py-2 text-sm font-semibold leading-6 text-white hover:bg-[#106E54]"
+            className="btn btn-primary ml-4 text-black"
+            onClick={() => navigate(`/signup`)}
           >
             Sign up
           </a>
@@ -193,11 +191,7 @@ export default function Header() {
           <div className="flex items-center justify-between">
             <a href="#" className="-m-1.5 p-1.5">
               <span className="sr-only">Your Company</span>
-              <img
-                className="h-8 w-auto"
-                src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
-                alt=""
-              />
+              <img className="h-8 w-auto" src={Logo} />
             </a>
             <button
               type="button"
@@ -212,7 +206,10 @@ export default function Header() {
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
                 <a
-                  href="/home"
+                  onClick={() => {
+                    navigate(`/home`);
+                    setMobileMenuOpen(false);
+                  }}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
                 >
                   Home
@@ -235,7 +232,10 @@ export default function Header() {
                           <Disclosure.Button
                             key={item.name}
                             as="a"
-                            href={item.href}
+                            onClick={() => {
+                              navigate(`/home`);
+                              setMobileMenuOpen(false);
+                            }}
                             className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-300 hover:bg-gray-700"
                           >
                             {item.name}
