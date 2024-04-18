@@ -17,18 +17,29 @@ export const addToUserList = async (token, data) => {
   }
 };
 
-export const getUserList = async (token, userId) => {
+export const getUserList = async (token) => {
   try {
-    const response = await axios.get(`${BackendURL}/list/${userId}`);
+    const response = await axios.get(`${BackendURL}/list`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     return response.data;
   } catch (error) {
+    console.log(error);
     return error.response.data;
   }
 };
 
 export const removeFromList = async (token, listId) => {
   try {
-    const response = await axios.delete(`${BackendURL}/list/remove/${listId}`);
+    const response = await axios.delete(`${BackendURL}/list/remove/${listId}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
     return response.data;
   } catch (error) {
     return error.response.data;
@@ -40,6 +51,11 @@ export const updateList = async (token, listId, data) => {
     const response = await axios.patch(
       `${BackendURL}/list/update/${listId}`,
       data,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
     );
     return response.data;
   } catch (error) {

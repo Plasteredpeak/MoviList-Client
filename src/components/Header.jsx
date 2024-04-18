@@ -69,6 +69,7 @@ export default function Header() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
+    navigate("/home");
   };
 
   return (
@@ -135,7 +136,7 @@ export default function Header() {
                     >
                       <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-700 group-hover:bg-gray-900">
                         <item.icon
-                          className="group-hover:text-primary h-6 w-6 text-gray-300"
+                          className="h-6 w-6 text-gray-300 group-hover:text-primary"
                           aria-hidden="true"
                         />
                       </div>
@@ -174,7 +175,11 @@ export default function Header() {
               </Popover.Panel>
             </Transition>
           </Popover>
-          <a href="#" className="text-sm font-semibold leading-6 text-gray-300">
+          <a
+            className="cursor-pointer text-sm font-semibold leading-6 text-gray-300 
+          hover:text-white"
+            onClick={() => navigate(`/my-list`)}
+          >
             My List
           </a>
         </Popover.Group>
@@ -195,7 +200,7 @@ export default function Header() {
               </div>
               <ul
                 tabIndex={0}
-                className="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow"
+                className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
               >
                 <li>
                   <a onClick={handleLogout}>Logout</a>
@@ -285,7 +290,8 @@ export default function Header() {
 
                 <a
                   onClick={() => {
-                    navigate(`/home`);
+                    navigate(`/my-list`);
+                    h;
                     setMobileMenuOpen(false);
                   }}
                   className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 text-gray-300 hover:bg-gray-700"
