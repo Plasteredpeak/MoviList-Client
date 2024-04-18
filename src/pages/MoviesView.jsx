@@ -12,6 +12,8 @@ import {
 } from "../services/tmdb.services";
 
 import { useNavigate } from "react-router-dom";
+import { FaCalendar, FaCheck, FaPlay, FaPlus } from "react-icons/fa6";
+import { FaSearch } from "react-icons/fa";
 
 const MoviesView = () => {
   const navigate = useNavigate();
@@ -25,6 +27,10 @@ const MoviesView = () => {
   const [movies, setMovies] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
+
+  const [hovered, setHovered] = useState(false);
+
+  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -81,13 +87,25 @@ const MoviesView = () => {
       <div className="flex justify-between">
         <h1 className="mt-8 text-2xl font-bold">{title}</h1>
       </div>
+      <div className="mb-4 flex justify-center">
+        <label className="input input-secondary mb-4 flex w-1/2 items-center gap-2">
+          <input
+            type="text"
+            className="grow"
+            placeholder="Search"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+          <FaSearch className="cursor-pointer text-xl" />
+        </label>
+      </div>
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
         {movies.map((movie) => (
           <div
             key={movie.id}
             className="mt-2 flex transform flex-col transition duration-300 ease-in-out hover:scale-105 hover:cursor-pointer"
           >
-            <div className="max-h-96 overflow-hidden">
+            <div className="group relative max-h-96 overflow-hidden">
               <img
                 src={`${TMDB_IMAGE_URL}${movie.poster_path}`}
                 alt={movie.title}
@@ -98,6 +116,41 @@ const MoviesView = () => {
                     : navigate(`/tv/${movie.id}`);
                 }}
               />
+              <div id="icons">
+                <div className="absolute bottom-3 right-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                  <div
+                    className="tooltip tooltip-left"
+                    data-tip="Add to completed"
+                  >
+                    <div
+                      className="text-md btn btn-circle btn-secondary btn-sm "
+                      onMouseEnter={() => setHovered(true)}
+                    >
+                      {!hovered ? <FaPlus /> : <FaCheck />}
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute bottom-[5.25rem] right-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                  <div
+                    className="tooltip tooltip-left"
+                    data-tip="Add to watching"
+                  >
+                    <div className="text-md btn btn-circle btn-secondary btn-sm">
+                      <FaPlay />
+                    </div>
+                  </div>
+                </div>
+                <div className="absolute bottom-12 right-2 opacity-0 transition-opacity duration-200 group-hover:opacity-100">
+                  <div
+                    className="tooltip tooltip-left"
+                    data-tip="Add to Planning"
+                  >
+                    <div className="text-md btn btn-circle btn-secondary btn-sm">
+                      <FaCalendar />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <h2 className="mt-2 text-lg font-bold">
               {movie.title || movie.name}

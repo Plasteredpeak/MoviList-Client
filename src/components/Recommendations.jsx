@@ -26,12 +26,12 @@ const Recommendations = ({ isMovie, id }) => {
   }, [id, isMovie]);
 
   return (
-    <div className="container mx-auto px-5 py-10">
-      <h1 className="mt-8 text-2xl font-bold">
+    <div className="container mx-auto px-5 py-5">
+      <h1 className="mt-2 text-2xl font-bold">
         {isMovie ? "Movie" : "Series"} Recommendations
       </h1>
       <Carousel
-        className="mt-8"
+        className="mt-2"
         responsive={{
           desktop: {
             breakpoint: { max: 3000, min: 1024 },
