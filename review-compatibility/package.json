@@ -1,0 +1,19 @@
+{
+  "name": "review-compatibility",
+  "version": "1.0.0",
+  "description": "Calculate review compatibility between your rating and the world's rating.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "keywords": [
+    "review",
+    "compatibility",
+    "rating"
+  ],
+  "author": "Ali Hamza",
+  "license": "MIT",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+}
