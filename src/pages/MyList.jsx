@@ -38,7 +38,6 @@ const MyList = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(selectedMovie);
     const { success, data } = await updateList(token, selectedMovie.id, {
       status: selectedMovie.status,
     });
@@ -57,7 +56,6 @@ const MyList = () => {
 
   const handleReview = async (e) => {
     e.preventDefault();
-    console.log(selectedMovie);
     const { success, data } = await updateList(token, selectedMovie.id, {
       userRating: selectedMovie.userRating,
     });
@@ -94,10 +92,6 @@ const MyList = () => {
         0,
       );
     }
-
-    console.log(
-      `Compatibility Change after ${numReviews} reviews: ${compatibilityChange.toFixed(2)}%`,
-    );
 
     setTaste(compatibilityChange);
 

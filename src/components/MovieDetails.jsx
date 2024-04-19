@@ -43,8 +43,6 @@ export default function MovieDetails({ isMovie, id }) {
     const fetchMovie = async () => {
       const data = isMovie ? await getMovie(id) : await getSeries(id);
 
-      console.log(data);
-
       setMovie(data);
     };
 
@@ -101,7 +99,7 @@ export default function MovieDetails({ isMovie, id }) {
           <div className="mt-2 flex w-full justify-center">
             <div className="tooltip tooltip-bottom" data-tip="Add to Completed">
               <div
-                className="text-md btn btn-circle btn-secondary btn-outline group mx-2"
+                className="text-md group btn btn-circle btn-outline btn-secondary mx-2"
                 onClick={() => addToList("completed")}
               >
                 <FaCheck className="text-lg group-hover:text-white" />
@@ -110,7 +108,7 @@ export default function MovieDetails({ isMovie, id }) {
 
             <div className="tooltip tooltip-bottom" data-tip="Add to Planning">
               <div
-                className="text-md btn btn-circle btn-secondary btn-outline group"
+                className="text-md group btn btn-circle btn-outline btn-secondary"
                 onClick={() => addToList("planning")}
               >
                 <FaCalendar className="text-lg group-hover:text-white" />
@@ -119,7 +117,7 @@ export default function MovieDetails({ isMovie, id }) {
 
             <div className="tooltip tooltip-bottom" data-tip="Add to Watching">
               <div
-                className="text-md btn btn-circle btn-secondary btn-outline group mx-2"
+                className="text-md group btn btn-circle btn-outline btn-secondary mx-2"
                 onClick={() => addToList("watching")}
               >
                 <FaPlay className="text-lg group-hover:text-white" />
