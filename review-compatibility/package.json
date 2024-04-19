@@ -1,6 +1,6 @@
 {
   "name": "review-compatibility",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Calculate review compatibility between your rating and the world's rating.",
   "main": "index.js",
   "scripts": {

@@ -16,13 +16,16 @@ function calculateCompatibilityChange(
   myRating,
   numReviews,
 ) {
+  const minRating = Math.min(myRating, worldRating);
+  const maxRating = Math.max(myRating, worldRating);
+
+  const currentChange = (minRating / maxRating) * 100;
   // If there are no previous reviews, return the current compatibility
   if (numReviews === 0) {
-    return (myRating / worldRating) * 100;
+    return currentChange;
   }
 
   // Calculate weighted average for compatibility change
-  const currentChange = (myRating / worldRating) * 100;
   const weightedPrevCompatibility = prevCompatibility * numReviews;
   const totalReviews = numReviews + 1; // Including the new review
   const newCompatibilityChange =
