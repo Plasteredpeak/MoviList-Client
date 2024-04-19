@@ -6,6 +6,9 @@ import {
   updateList,
 } from "../services/list.services";
 import { toast } from "react-toastify";
+import { getTaste, updateTaste } from "../services/taste.services";
+
+import { calculateCompatibilityChange } from "review-compatibility";
 
 const MyList = () => {
   const [movies, setMovies] = useState([]);
@@ -15,6 +18,23 @@ const MyList = () => {
   const [statusFilter, setStatusFilter] = useState("completed"); // Default to "completed"
   const [filteredMovies, setFilteredMovies] = useState([]);
   const [selectedMovie, setSelectedMovie] = useState(null);
+
+  const [taste, setTaste] = useState(0);
+
+  useEffect(() => {
+    const updateTaste = async () => {
+      const tasteResponse = await getTaste(token);
+      if (tasteResponse.success) {
+        console.log(tasteResponse);
+        const { compatibility } = tasteResponse.data;
+        setTaste(compatibility);
+      } else {
+        console.log("Could not fetch taste", tasteResponse.data);
+      }
+    };
+
+    updateTaste();
+  }, [token, taste]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,6 +67,49 @@ const MyList = () => {
     } else {
       if (data) toast.error(data.message);
       else toast.error("Could not update list");
+    }
+
+    const tasteResponse = await getTaste(token);
+    let compatibilityChange = 0;
+    let numReviews = 0;
+    if (tasteResponse.success) {
+      console.log(tasteResponse);
+      const { compatibility, reviews } = tasteResponse.data;
+      const prevCompatibility = compatibility;
+      const worldRating = selectedMovie.rating;
+      const myRating = selectedMovie.userRating;
+      numReviews = reviews;
+
+      compatibilityChange = calculateCompatibilityChange(
+        prevCompatibility,
+        worldRating,
+        myRating,
+        numReviews,
+      );
+    } else {
+      compatibilityChange = calculateCompatibilityChange(
+        0,
+        selectedMovie.rating,
+        selectedMovie.userRating,
+        0,
+      );
+    }
+
+    console.log(
+      `Compatibility Change after ${numReviews} reviews: ${compatibilityChange.toFixed(2)}%`,
+    );
+
+    setTaste(compatibilityChange);
+
+    const updatedTaste = await updateTaste(token, {
+      compatibility: compatibilityChange,
+      reviews: numReviews + 1,
+    });
+
+    if (updatedTaste.success) {
+      console.log("Taste updated successfully");
+    } else {
+      console.log("Could not update taste", updatedTaste.data);
     }
 
     setSelectedMovie(null);
@@ -97,6 +160,29 @@ const MyList = () => {
 
   return (
     <div className="m-8 flex min-h-[90vh] flex-col items-center">
+      <div className="my-5 flex w-full flex-col items-center">
+        <span className="mb-2 self-start text-xl font-bold">
+          Your Taste Compatibility Vs the World
+        </span>
+        <div className="flex w-full items-center">
+          <progress
+            className={`progress h-[1rem] w-1/2 ${
+              taste < 30
+                ? "progress-error"
+                : taste < 50
+                  ? "progress-warning"
+                  : taste < 80
+                    ? "progress-accent"
+                    : "progress-success"
+            }`}
+            value={taste}
+            max="100"
+          ></progress>
+          <span className="ml-2 text-center align-middle text-xl font-bold">
+            {taste.toFixed(0)}%
+          </span>
+        </div>
+      </div>
       {/* Tabs */}
       <div role="tablist" className="tabs-boxed tabs tabs-md mb-4 w-1/2">
         <button
