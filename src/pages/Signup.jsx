@@ -6,7 +6,10 @@ import Logo from "../assets/wLogo.png";
 import { signup } from "../services/user.services";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { getGuestSignupMessage, isGuestModeEnabled } from "../services/guestMode";
+import {
+  getGuestSignupMessage,
+  isGuestModeEnabled,
+} from "../services/guestMode";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -95,7 +98,7 @@ const SignUp = () => {
         <label className="form-control mb-5 w-full">
           <div
             className={`tooltip  tooltip-right ${
-              errors.userName ? "tooltip-error tooltip-open" : ""
+              errors.userName ? "tooltip-open tooltip-error" : ""
             }`}
             {...(errors.userName && { "data-tip": errors.userName })}
           >
@@ -117,7 +120,7 @@ const SignUp = () => {
         <label className="form-control mb-5 w-full">
           <div
             className={`tooltip  tooltip-right ${
-              errors.email ? "tooltip-error tooltip-open" : ""
+              errors.email ? "tooltip-open tooltip-error" : ""
             }`}
             {...(errors.email && { "data-tip": errors.email })}
           >
@@ -139,7 +142,7 @@ const SignUp = () => {
         <label className="form-control mb-5 w-full">
           <div
             className={`tooltip  tooltip-right ${
-              errors.password ? "tooltip-error tooltip-open" : ""
+              errors.password ? "tooltip-open tooltip-error" : ""
             }`}
             {...(errors.password && { "data-tip": errors.password })}
           >
@@ -161,7 +164,7 @@ const SignUp = () => {
         <label className="form-control mb-5 w-full">
           <div
             className={`tooltip  tooltip-right ${
-              errors.confirmPassword ? "tooltip-error tooltip-open" : ""
+              errors.confirmPassword ? "tooltip-open tooltip-error" : ""
             }`}
             {...(errors.confirmPassword && {
               "data-tip": errors.confirmPassword,

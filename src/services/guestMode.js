@@ -120,10 +120,13 @@ const writeJSON = (key, value) => {
 };
 
 export const isGuestModeEnabled = () =>
-  import.meta.env.VITE_GUEST_MODE === "true" || !import.meta.env.VITE_BACKEND_URL;
+  import.meta.env.VITE_GUEST_MODE === "true" ||
+  !import.meta.env.VITE_BACKEND_URL;
 
 export const isGuestCredentials = (data = {}) => {
-  const email = String(data.email ?? "").trim().toLowerCase();
+  const email = String(data.email ?? "")
+    .trim()
+    .toLowerCase();
   const password = String(data.password ?? "").trim();
 
   return email === "guest" && password === "guest";
@@ -203,7 +206,8 @@ export const writeGuestList = (list) => {
   writeJSON(STORAGE_KEYS.demoList, list);
 };
 
-export const readGuestTaste = () => readJSON(STORAGE_KEYS.demoTaste, DEFAULT_TASTE);
+export const readGuestTaste = () =>
+  readJSON(STORAGE_KEYS.demoTaste, DEFAULT_TASTE);
 
 export const writeGuestTaste = (taste) => {
   writeJSON(STORAGE_KEYS.demoTaste, taste);

@@ -12,7 +12,9 @@ export const getTaste = async (token) => {
   if (isGuestModeEnabled() && !token) {
     return {
       success: false,
-      data: { message: "Please log in with guest / guest to view demo taste data." },
+      data: {
+        message: "Please log in with guest / guest to view demo taste data.",
+      },
     };
   }
 
@@ -40,7 +42,9 @@ export const updateTaste = async (token, data) => {
   if (isGuestModeEnabled() && !token) {
     return {
       success: false,
-      data: { message: "Please log in with guest / guest to use demo taste data." },
+      data: {
+        message: "Please log in with guest / guest to use demo taste data.",
+      },
     };
   }
 

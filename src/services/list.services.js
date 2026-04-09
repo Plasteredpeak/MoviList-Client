@@ -13,7 +13,9 @@ export const addToUserList = async (token, data) => {
   if (isGuestModeEnabled() && !token) {
     return {
       success: false,
-      data: { message: "Please log in with guest / guest to use the demo list." },
+      data: {
+        message: "Please log in with guest / guest to use the demo list.",
+      },
     };
   }
 
@@ -60,7 +62,9 @@ export const getUserList = async (token) => {
   if (isGuestModeEnabled() && !token) {
     return {
       success: false,
-      data: { message: "Please log in with guest / guest to view the demo list." },
+      data: {
+        message: "Please log in with guest / guest to view the demo list.",
+      },
     };
   }
 
@@ -89,7 +93,9 @@ export const removeFromList = async (token, listId) => {
   if (isGuestModeEnabled() && !token) {
     return {
       success: false,
-      data: { message: "Please log in with guest / guest to use the demo list." },
+      data: {
+        message: "Please log in with guest / guest to use the demo list.",
+      },
     };
   }
 
@@ -120,7 +126,9 @@ export const updateList = async (token, listId, data) => {
   if (isGuestModeEnabled() && !token) {
     return {
       success: false,
-      data: { message: "Please log in with guest / guest to use the demo list." },
+      data: {
+        message: "Please log in with guest / guest to use the demo list.",
+      },
     };
   }
 

@@ -87,7 +87,7 @@ const Login = () => {
         <label className="form-control mb-5 w-full">
           <div
             className={`tooltip  tooltip-right ${
-              errors.email ? "tooltip-error tooltip-open" : ""
+              errors.email ? "tooltip-open tooltip-error" : ""
             }`}
             {...(errors.email && { "data-tip": errors.email })}
           >
@@ -108,7 +108,7 @@ const Login = () => {
         <label className="form-control mb-5 w-full">
           <div
             className={`tooltip  tooltip-right ${
-              errors.password ? "tooltip-error tooltip-open" : ""
+              errors.password ? "tooltip-open tooltip-error" : ""
             }`}
             {...(errors.password && { "data-tip": errors.password })}
           >
