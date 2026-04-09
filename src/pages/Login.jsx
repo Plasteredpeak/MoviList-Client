@@ -5,6 +5,12 @@ import Logo from "../assets/wLogo.png";
 import { login } from "../services/user.services";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import {
+  activateGuestSession,
+  getGuestLoginMessage,
+  isGuestCredentials,
+  isGuestModeEnabled,
+} from "../services/guestMode";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -35,6 +41,19 @@ const Login = () => {
     // Validate password
     if (!formData.password) {
       setErrors({ ...errors, password: "Password is required" });
+      return;
+    }
+
+    if (isGuestModeEnabled() && isGuestCredentials(formData)) {
+      activateGuestSession();
+      toast.success("Guest session restored");
+      window.dispatchEvent(new Event("login"));
+      navigate("/");
+      return;
+    }
+
+    if (isGuestModeEnabled()) {
+      toast.error(getGuestLoginMessage());
       return;
     }
 
@@ -78,9 +97,9 @@ const Login = () => {
             >
               <MdEmail />
               <input
-                type="email"
+                type="text"
                 className="grow"
-                placeholder="Email"
+                placeholder="Email or guest"
                 onChange={(e) => handleChange(e, "email")}
               />
             </label>

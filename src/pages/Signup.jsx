@@ -6,6 +6,7 @@ import Logo from "../assets/wLogo.png";
 import { signup } from "../services/user.services";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { getGuestSignupMessage, isGuestModeEnabled } from "../services/guestMode";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -32,6 +33,12 @@ const SignUp = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (isGuestModeEnabled()) {
+      toast.error(getGuestSignupMessage());
+      navigate("/login");
+      return;
+    }
 
     // Validate username
     if (!formData.userName) {

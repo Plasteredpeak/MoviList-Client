@@ -14,6 +14,7 @@ import { FaFire } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
 import { CiMenuKebab } from "react-icons/ci";
 import { HiDotsVertical } from "react-icons/hi";
+import { isGuestUser, markGuestLoggedOut } from "../services/guestMode";
 
 const items = [
   {
@@ -66,6 +67,9 @@ export default function Header() {
   }, []);
 
   const handleLogout = () => {
+    if (isGuestUser(user)) {
+      markGuestLoggedOut();
+    }
     localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
