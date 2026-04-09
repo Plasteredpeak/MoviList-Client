@@ -92,6 +92,39 @@ const GUEST_LIST = [
     userRating: "0",
     status: "planning",
   },
+  {
+    id: "guest-8",
+    mediaId: "1399",
+    type: "series",
+    image: "/u3bZgnGQ9T01sWNhyveQz0wH0Hl.jpg",
+    title: "Game of Thrones",
+    releaseDate: "2011-04-17",
+    rating: "8.5",
+    userRating: "9",
+    status: "completed",
+  },
+  {
+    id: "guest-9",
+    mediaId: "1396",
+    type: "series",
+    image: "/aXHszdw5ayP33bPXyDNeKQKd5Bo.jpg",
+    title: "Breaking Bad",
+    releaseDate: "2008-01-20",
+    rating: "8.9",
+    userRating: "0",
+    status: "watching",
+  },
+  {
+    id: "guest-10",
+    mediaId: "66732",
+    type: "series",
+    image: "/8vFgqDNX1nZ9sA0N2l3L6L4lC5F.jpg",
+    title: "Stranger Things",
+    releaseDate: "2016-07-15",
+    rating: "8.6",
+    userRating: "0",
+    status: "planning",
+  },
 ];
 
 const DEFAULT_TASTE = {
@@ -153,8 +186,26 @@ export const getGuestSignupMessage = () =>
 export const seedGuestState = () => {
   if (!isBrowser || !isGuestModeEnabled()) return;
 
-  if (!localStorage.getItem(STORAGE_KEYS.demoList)) {
+  const existingList = readJSON(STORAGE_KEYS.demoList, null);
+  if (!existingList) {
     writeJSON(STORAGE_KEYS.demoList, GUEST_LIST);
+  } else {
+    const mergedList = [...existingList];
+
+    GUEST_LIST.forEach((seedItem) => {
+      const exists = mergedList.some(
+        (item) =>
+          item.mediaId === seedItem.mediaId && item.type === seedItem.type,
+      );
+
+      if (!exists) {
+        mergedList.push(seedItem);
+      }
+    });
+
+    if (mergedList.length !== existingList.length) {
+      writeJSON(STORAGE_KEYS.demoList, mergedList);
+    }
   }
 
   if (!localStorage.getItem(STORAGE_KEYS.demoTaste)) {
